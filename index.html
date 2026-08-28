@@ -9,14 +9,56 @@
 </head>
 
 <body>
-    <h1>dooooo u wanna maybe go out with me ? </h1>
+    <h1>hiii special onee , sooo i may have or may have not 'accidentally' liked uu<br> i just wannaaa askk a question ive been dying to ask plss<br> soo uhmm dooo u maybeeee wanna go out with mee ?? </h1>
 
     <img src="catslinlove.jpg" class="cats">
 
     <div class="answerbuttons">
-        <a href="yes.html" class="links">yes</a>
-        <a href="no.html" class="links">no</a>
+        
+        <a href="yes.html" id="yes-btn" class="links">yes</a>
+        <a href="no.html" id="no-btn" class="links">no</a>
     </div>
+
+     <script>
+        const yesBtn = document.getElementById('yes-btn');
+        const noBtn = document.getElementById('no-btn');
+
+        function createBurst(button, emojis) {
+            const rect = button.getBoundingClientRect();
+            const totalCount = 16;
+
+            for (let i = 0; i < totalCount; i++) {
+                const span = document.createElement('span');
+                span.className = 'emoji-burst';
+                span.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+
+                const centerX = rect.left + window.scrollX + (rect.width / 2);
+                const centerY = rect.top + window.scrollY + (rect.height / 2);
+                span.style.left = centerX + 'px';
+                span.style.top = centerY + 'px';
+
+                const angle = (i / totalCount) * 2 * Math.PI;
+                const distance = 50 + Math.random() * 30;
+                const moveX = Math.cos(angle) * distance;
+                const moveY = Math.sin(angle) * distance;
+
+                span.style.setProperty('--x', `${moveX}px`);
+                span.style.setProperty('--y', `${moveY}px`);
+
+                document.body.appendChild(span);
+
+                setTimeout(() => span.remove(), 5000);
+            }
+        }
+
+        yesBtn.addEventListener('mouseenter', () => {
+            createBurst(yesBtn, ['💖', '❤️', '💝', '✨', '🥰']);
+        });
+
+        noBtn.addEventListener('mouseenter', () => {
+            createBurst(noBtn, ['😢', '😭', '☹️', '💔', '🥺']);
+        });
+    </script>
 </body>
 
 </html>

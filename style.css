@@ -7,7 +7,7 @@ html {
     font-family: 'oliver';
     src: url('Oliver-Regular.ttf') format('truetype');
 }
-h1{
+h1, h2 {
     color: #cf4d6f;
     text-align: center;
 }
@@ -18,7 +18,7 @@ body{
 }
 
 .cats{
-    max-width: 200px;
+    max-width: 400px;
     height: auto;
     display: block;
     margin-left: auto;
@@ -27,13 +27,15 @@ body{
 
 .answerbuttons{
     text-align: center;
-    word-spacing: 20px;
+    word-spacing: 40px;
+    margin-top: 40px;
 }
 
 .links{
     text-decoration: none;
     color: #cf4d6f;
-    padding: 15x 26px;
+    padding: 20px 40px;
+    font-size: 24px;
     border: 2px solid #cf4d6f;
     border-radius: 5px;
     background-color: #ffdccc
@@ -42,4 +44,51 @@ body{
 a:hover{
     color: red;
     border: 2px solid red;
+}
+
+.links {
+    transition: transform 0.2s ease;
+    display: inline-block;
+}
+
+#yes-btn:hover {
+    transform: scale(1.6);
+}
+
+#no-btn:hover {
+    transform: scale(0.4);
+}
+
+.emoji-burst {
+    position: absolute;
+    pointer-events: none;
+    font-size: 40px;
+    animation: floatUp 1.5s ease-out forwards;
+    z-index: 10;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translate(-50%, -50%) scale(0.3);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(1.2);
+        opacity: 0;
+    }
+}
+
+@keyframes burstOut {
+    0% {
+        transform: translate(-50%, -50%) scale(0.3);
+        opacity: 1;
+    }
+    70% {
+        transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(1.2);
+        opacity: 1; 
+    }
+    100% {
+        transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(1.2);
+        opacity: 0;
+    }
 }
