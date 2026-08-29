@@ -14,6 +14,42 @@
         <img src="catsad.jpg" class="cats">
 
         <div class="answerbuttons">
-        <a href="index.html" class="links">try againn</a>
+        <a href="question.html" id="try-again-btn" class="links">try againn</a>
         </div>
+
+        <audio id="bg-music" src="girlinred.mp3" loop></audio>
+
+    <script>
+        const music = document.getElementById('bg-music');
+        const tryAgainBtn = document.getElementById('try-again-btn');
+
+        const saveMusicTime = () => {
+            if (music && !Number.isNaN(music.currentTime)) {
+                localStorage.setItem('musicTime', String(music.currentTime));
+            }
+        };
+
+        tryAgainBtn.addEventListener('mouseenter', () => {
+            tryAgainBtn.style.transform = 'scale(1.08)';
+        });
+
+        tryAgainBtn.addEventListener('mouseleave', () => {
+            tryAgainBtn.style.transform = 'scale(1)';
+        });
+
+        const startAudio = () => {
+            music.volume = 0.5;
+            music.currentTime = Number(localStorage.getItem('musicTime') || 0);
+            music.play().catch(() => {
+                window.addEventListener('mousemove', () => music.play(), { once: true });
+                window.addEventListener('touchstart', () => music.play(), { once: true });
+            });
+        };
+
+        music.addEventListener('timeupdate', saveMusicTime);
+        window.addEventListener('beforeunload', saveMusicTime);
+        window.addEventListener('pagehide', saveMusicTime);
+        window.addEventListener('DOMContentLoaded', startAudio);
+        window.addEventListener('click', startAudio, { once: true });
+    </script>
     </body>

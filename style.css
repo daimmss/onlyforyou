@@ -7,17 +7,120 @@ html {
     font-family: 'oliver';
     src: url('Oliver-Regular.ttf') format('truetype');
 }
+
 h1, h2 {
     color: #cf4d6f;
     text-align: center;
+    font-family: 'oliver', sans-serif;
+    font-size: 24px;
+    line-height: 1.5;
 }
 
 body{
     background-color: #f4a4c0;
-    font-family: 'oliver';
+    font-family: 'oliver', sans-serif;
+    font-size: 20px;
+    margin: 0;
+}
+
+.signature-section {
+    margin: 30px auto 10px;
+    text-align: center;
+}
+
+.signature-label {
+    color: #cf4d6f;
+    font-size: 28px;
+    margin-bottom: 10px;
+    text-shadow: 1px 1px 0 rgba(255,255,255,0.4);
+}
+
+.arrow-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+}
+
+.arrow {
+    font-size: 45px;
+    color: #cf4d6f;
+    line-height: 1;
+    animation: arrowPulse 1s infinite ease-in-out;
+}
+
+.signature-box {
+    width: 220px;
+    min-height: 88px;
+    background: #fff5f7;
+    border: 3px solid #cf4d6f;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(207, 77, 111, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.signature-box:hover {
+    transform: scale(1.04);
+    box-shadow: 0 8px 18px rgba(207, 77, 111, 0.2);
+}
+
+.signature-text {
+    font-family: "Brush Script MT", "Segoe Print", "Lucida Handwriting", cursive;
+    color: #cf4d6f;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1.1;
+    word-break: break-word;
+}
+
+.signature-text.signed {
+    font-size: 34px;
+}
+
+@keyframes arrowPulse {
+    0%, 100% { transform: translateY(0); opacity: 0.9; }
+    50% { transform: translateY(-4px); opacity: 1; }
+}
+
+.page-card {
+    width: min(92vw, 900px);
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.page-copy {
+    font-size: 22px;
+    text-align: center;
+    color: #cf4d6f;
+    margin: 20px 0 30px 0;
+}
+
+.question-text,
+.before-question-title {
+    font-size: clamp(26px, 2.6vw, 42px);
+    line-height: 1.5;
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+.under-buttons-note {
+    margin-top: 24px;
+    text-align: center;
+    color: #cf4d6f;
+    font-family: 'oliver', sans-serif;
+    font-size: 22px;
+    line-height: 1.4;
 }
 
 .cats{
+    width: min(72vw, 400px);
     max-width: 400px;
     height: auto;
     display: block;
@@ -38,7 +141,9 @@ body{
     font-size: 24px;
     border: 2px solid #cf4d6f;
     border-radius: 5px;
-    background-color: #ffdccc
+    background-color: #ffdccc;
+    min-width: 110px;
+    box-sizing: border-box;
 }
 
 a:hover{
@@ -59,6 +164,11 @@ a:hover{
     transform: scale(0.4);
 }
 
+#continue-btn:hover,
+#try-again-btn:hover {
+    transform: scale(1.08);
+}
+
 .emoji-burst {
     position: absolute;
     pointer-events: none;
@@ -67,9 +177,32 @@ a:hover{
     z-index: 10;
 }
 
+.particle-burst {
+    position: absolute;
+    pointer-events: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(207, 77, 111, 0.9);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+    animation: particleFloat 1.5s ease-out forwards;
+    z-index: 10;
+}
+
 @keyframes floatUp {
     0% {
         transform: translate(-50%, -50%) scale(0.3);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(1.2);
+        opacity: 0;
+    }
+}
+
+@keyframes particleFloat {
+    0% {
+        transform: translate(-50%, -50%) scale(0.4);
         opacity: 1;
     }
     100% {
@@ -91,4 +224,211 @@ a:hover{
         transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(1.2);
         opacity: 0;
     }
+}
+
+#envelope-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #ffdccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 999;
+}
+
+.envelope {
+    width: 250px;
+    height: 180px;
+    background-color: #ffffff;
+    border: 3px solid #cf4d6f;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 8px 20px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.envelope:hover {
+    transform: scale(1.05);
+}
+
+.heart-seal {
+    font-size: 50px;
+    animation: heartbeat 1.2s infinite;
+}
+
+.click-text {
+    font-family: 'oliver', sans-serif;
+    color: #cf4d6f;
+    font-size: 20px;
+    margin-top: 15px;
+}
+
+@keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+}
+
+@media (max-width: 900px) {
+    .page-card {
+        width: min(92vw, 800px);
+        margin: 30px auto;
+        padding: 16px 12px;
+    }
+
+    .question-text,
+    .before-question-title {
+        font-size: clamp(22px, 4vw, 34px);
+    }
+
+    .page-copy,
+    .under-buttons-note {
+        font-size: clamp(18px, 3vw, 24px);
+    }
+}
+
+@media (max-width: 768px) {
+    h1, h2 {
+        font-size: 22px;
+    }
+
+    .answerbuttons {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 18px;
+        word-spacing: normal;
+        margin-top: 28px;
+        flex-wrap: wrap;
+    }
+
+    .links {
+        padding: 14px 22px;
+        font-size: clamp(18px, 5vw, 30px);
+        min-width: 120px;
+    }
+
+    .cats {
+        width: min(80vw, 380px);
+    }
+
+    .signature-label {
+        font-size: 24px;
+    }
+
+    .signature-box {
+        width: min(60vw, 220px);
+        min-height: 76px;
+    }
+
+    .signature-text {
+        font-size: 26px;
+    }
+
+    .arrow {
+        font-size: 32px;
+    }
+
+    .envelope {
+        width: 210px;
+        height: 150px;
+    }
+
+    .envelope-title {
+        font-size: 30px;
+    }
+
+    .envelope-footer {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        font-size: 18px;
+    }
+
+    .page-card {
+        width: min(94vw, 500px);
+        margin: 20px auto;
+        padding: 10px 8px;
+    }
+
+    .question-text,
+    .before-question-title {
+        font-size: clamp(20px, 6vw, 28px);
+        line-height: 1.4;
+    }
+
+    .page-copy,
+    .under-buttons-note {
+        font-size: 18px;
+    }
+
+    .answerbuttons {
+        gap: 12px;
+    }
+
+    .links {
+        width: 120px;
+        padding: 12px 18px;
+    }
+
+    .signature-section {
+        margin-top: 24px;
+    }
+
+    .signature-box {
+        width: min(62vw, 180px);
+        min-height: 68px;
+    }
+
+    .signature-label {
+        font-size: 22px;
+    }
+
+    .arrow-row {
+        gap: 8px;
+    }
+
+    .arrow {
+        font-size: 26px;
+    }
+}
+
+#envelope-container {
+    flex-direction: column; 
+    gap: 30px;
+}
+
+.envelope-title {
+    font-family: 'oliver', sans-serif;
+    color: #cf4d6f;
+    font-size: 38px;
+    text-align: center;
+    margin: 0;
+    padding: 0 20px;
+}
+
+.envelope-footer {
+    font-family: 'oliver', sans-serif;
+    color: #cf4d6f;
+    font-size: 24px;
+    text-align: center;
+    margin: 0;
+    margin-top: 10px;
+}
+
+.letter {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
 }

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>only for u </title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <div class="page-card">
+        <h1 class="question-text">soo uhmm dooo u maybeeee wanna go out with mee ?? </h1>
+
+        <img src="cateye.jpg" class="cats">
+
+        <div class="answerbuttons">
+            <a href="yes.html" id="yes-btn" class="links">yes</a>
+            <a href="no.html" id="no-btn" class="links">no</a>
+        </div>
+
+        <p class="under-buttons-note">nooo pressure btww takee ur timee</p>
+    </div>
+
+    <audio id="bg-music" src="girlinred.mp3" loop></audio>
+
+    <script>
+        const yesBtn = document.getElementById('yes-btn');
+        const noBtn = document.getElementById('no-btn');
+        const music = document.getElementById('bg-music');
+
+        const saveMusicTime = () => {
+            if (music && !Number.isNaN(music.currentTime)) {
+                localStorage.setItem('musicTime', String(music.currentTime));
+            }
+        };
+
+        function createBurst(button, emojis) {
+            const rect = button.getBoundingClientRect();
+            const totalCount = 16;
+
+            for (let i = 0; i < totalCount; i++) {
+                const span = document.createElement('span');
+                span.className = 'emoji-burst';
+                span.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+
+                const centerX = rect.left + window.scrollX + (rect.width / 2);
+                const centerY = rect.top + window.scrollY + (rect.height / 2);
+                span.style.left = centerX + 'px';
+                span.style.top = centerY + 'px';
+
+                const angle = (i / totalCount) * 2 * Math.PI;
+                const distance = 50 + Math.random() * 30;
+                const moveX = Math.cos(angle) * distance;
+                const moveY = Math.sin(angle) * distance;
+
+                span.style.setProperty('--x', `${moveX}px`);
+                span.style.setProperty('--y', `${moveY}px`);
+
+                document.body.appendChild(span);
+
+                setTimeout(() => span.remove(), 5000);
+            }
+        }
+
+        yesBtn.addEventListener('mouseenter', () => {
+            createBurst(yesBtn, ['💖', '❤️', '💝', '✨', '🥰']);
+        });
+
+        noBtn.addEventListener('mouseenter', () => {
+            createBurst(noBtn, ['😢', '😭', '☹️', '💔', '🥺']);
+        });
+
+        yesBtn.addEventListener('click', () => {
+            saveMusicTime();
+        });
+
+        noBtn.addEventListener('click', () => {
+            saveMusicTime();
+        });
+
+        const startAudio = () => {
+            music.volume = 0.5;
+            music.currentTime = Number(localStorage.getItem('musicTime') || 0);
+            music.play().catch(() => {
+                window.addEventListener('mousemove', () => music.play(), { once: true });
+                window.addEventListener('touchstart', () => music.play(), { once: true });
+            });
+        };
+
+        music.addEventListener('timeupdate', saveMusicTime);
+        window.addEventListener('beforeunload', saveMusicTime);
+        window.addEventListener('pagehide', saveMusicTime);
+        window.addEventListener('DOMContentLoaded', startAudio);
+        window.addEventListener('click', startAudio, { once: true });
+    </script>
+</body>
+
+</html>

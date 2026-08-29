@@ -9,54 +9,72 @@
 </head>
 
 <body>
-    <h1>hiii special onee , sooo i may have or may have not 'accidentally' liked uu<br> i just wannaaa askk a question ive been dying to ask plss<br> soo uhmm dooo u maybeeee wanna go out with mee ?? </h1>
+    <div id="envelope-container">
+        <h1 class="envelope-title">hiii special onee</h1>
 
-    <img src="catslinlove.jpg" class="cats">
+        <div class="envelope-wrapper" onclick="openEnvelope()">
+            <div class="envelope">
+                <div class="flap"></div>
+                <div class="pocket"></div>
+                <div class="letter">
+                    <div class="heart-seal">❤️</div>
+                    <p class="click-text">click hereee plss</p>
+                </div>
+            </div>
+        </div>
 
-    <div class="answerbuttons">
-        
-        <a href="yes.html" id="yes-btn" class="links">yes</a>
-        <a href="no.html" id="no-btn" class="links">no</a>
+        <p class="envelope-footer">from: uu knoww whooo</p>
     </div>
 
-     <script>
-        const yesBtn = document.getElementById('yes-btn');
-        const noBtn = document.getElementById('no-btn');
+    <audio id="bg-music" src="girlinred.mp3" loop></audio>
 
-        function createBurst(button, emojis) {
-            const rect = button.getBoundingClientRect();
-            const totalCount = 16;
+    <script>
+        const music = document.getElementById('bg-music');
 
-            for (let i = 0; i < totalCount; i++) {
-                const span = document.createElement('span');
-                span.className = 'emoji-burst';
-                span.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-
-                const centerX = rect.left + window.scrollX + (rect.width / 2);
-                const centerY = rect.top + window.scrollY + (rect.height / 2);
-                span.style.left = centerX + 'px';
-                span.style.top = centerY + 'px';
-
-                const angle = (i / totalCount) * 2 * Math.PI;
-                const distance = 50 + Math.random() * 30;
-                const moveX = Math.cos(angle) * distance;
-                const moveY = Math.sin(angle) * distance;
-
-                span.style.setProperty('--x', `${moveX}px`);
-                span.style.setProperty('--y', `${moveY}px`);
-
-                document.body.appendChild(span);
-
-                setTimeout(() => span.remove(), 5000);
+        const saveMusicTime = () => {
+            if (music && !Number.isNaN(music.currentTime)) {
+                localStorage.setItem('musicTime', String(music.currentTime));
             }
+        };
+
+        const startAudio = () => {
+            music.volume = 0;
+            music.currentTime = Number(localStorage.getItem('musicTime') || 0);
+
+            music.play().then(() => {
+                let fadeInterval = setInterval(() => {
+                    if (music.volume < 0.9) {
+                        music.volume += 0.1;
+                    } else {
+                        music.volume = 1;
+                        clearInterval(fadeInterval);
+                    }
+                }, 200);
+            }).catch(() => {
+                console.log('Autoplay blocked. Waiting for user interaction.');
+            });
+        };
+
+        music.addEventListener('timeupdate', saveMusicTime);
+        window.addEventListener('beforeunload', saveMusicTime);
+        window.addEventListener('pagehide', saveMusicTime);
+
+        function openEnvelope() {
+            const envelope = document.getElementById('envelope-container');
+            if (envelope) {
+                envelope.style.display = 'none';
+            }
+
+            saveMusicTime();
+            window.location.href = 'before-question.html';
         }
 
-        yesBtn.addEventListener('mouseenter', () => {
-            createBurst(yesBtn, ['💖', '❤️', '💝', '✨', '🥰']);
-        });
-
-        noBtn.addEventListener('mouseenter', () => {
-            createBurst(noBtn, ['😢', '😭', '☹️', '💔', '🥺']);
+        window.addEventListener('DOMContentLoaded', () => {
+            startAudio();
+            window.addEventListener('mousemove', startAudio, { once: true });
+            window.addEventListener('touchstart', startAudio, { once: true });
+            window.addEventListener('click', startAudio, { once: true });
+            window.addEventListener('scroll', startAudio, { once: true });
         });
     </script>
 </body>

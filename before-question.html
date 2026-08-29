@@ -9,20 +9,14 @@
 </head>
 
 <body>
-    <h1>omggg reallyyy ?? im surprised yayyyyy !!</h1>
+    <div class="page-card">
+        <h1 class="before-question-title">sooo i may have or may have not 'accidentally' liked uu</h1>
+        <p class="page-copy">andd i just wannaaa askk a question ive been dying to askk</p>
 
-    <img src="catgiveflower.jpg" class="cats">
+        <img src="catslinlove.jpg" class="cats">
 
-    <h2>welllll u knowww where to text mee<br> thankiessss hehe</h2>
-
-    <div class="signature-section">
-        <div class="signature-label">sign hereee</div>
-        <div class="arrow-row" aria-hidden="true">
-            <span class="arrow left">←</span>
-            <button id="signature-box" class="signature-box" type="button">
-                <span id="signature-text" class="signature-text">sign hereee</span>
-            </button>
-            <span class="arrow right">→</span>
+        <div class="answerbuttons">
+            <a href="question.html" id="continue-btn" class="links">continue</a>
         </div>
     </div>
 
@@ -30,8 +24,7 @@
 
     <script>
         const music = document.getElementById('bg-music');
-        const signatureBox = document.getElementById('signature-box');
-        const signatureText = document.getElementById('signature-text');
+        const continueBtn = document.getElementById('continue-btn');
 
         const saveMusicTime = () => {
             if (music && !Number.isNaN(music.currentTime)) {
@@ -39,14 +32,12 @@
             }
         };
 
-        signatureBox.addEventListener('click', () => {
-            const name = window.prompt('what should i write for your signature?', 'your name');
-            const cleanName = name ? name.trim() : '';
+        continueBtn.addEventListener('mouseenter', () => {
+            continueBtn.style.transform = 'scale(1.08)';
+        });
 
-            if (cleanName) {
-                signatureText.textContent = cleanName;
-                signatureText.classList.add('signed');
-            }
+        continueBtn.addEventListener('mouseleave', () => {
+            continueBtn.style.transform = 'scale(1)';
         });
 
         const startAudio = () => {
