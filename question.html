@@ -35,6 +35,12 @@
             }
         };
 
+        document.querySelectorAll('a[href]').forEach((link) => {
+            link.addEventListener('click', () => {
+                saveMusicTime();
+            });
+        });
+
         function createBurst(button, emojis) {
             const rect = button.getBoundingClientRect();
             const totalCount = 16;
@@ -80,30 +86,22 @@
         });
 
         const startAudio = () => {
-            const savedTime = Number(localStorage.getItem('musicTime') || 0);
             music.volume = 0.5;
-            music.preload = 'auto';
-
-            const resumePlayback = () => {
-                if (!Number.isNaN(savedTime) && savedTime > 0) {
-                    music.currentTime = savedTime;
-                }
-
-                music.play().catch(() => {
-                    window.addEventListener('mousemove', () => music.play(), { once: true });
-                    window.addEventListener('touchstart', () => music.play(), { once: true });
-                });
-            };
-
-            if (music.readyState >= 1) {
-                resumePlayback();
-            } else {
-                music.addEventListener('loadedmetadata', resumePlayback, { once: true });
-                music.load();
+            const savedTime = Number(localStorage.getItem('musicTime') || 0);
+            if (savedTime > 0) {
+                music.currentTime = savedTime;
             }
+            music.play().catch(() => {
+                window.addEventListener('mousemove', () => music.play(), { once: true });
+                window.addEventListener('touchstart', () => music.play(), { once: true });
+            });
         };
 
         music.addEventListener('timeupdate', saveMusicTime);
+        music.addEventListener('pause', saveMusicTime);
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) saveMusicTime();
+        });
         window.addEventListener('beforeunload', saveMusicTime);
         window.addEventListener('pagehide', saveMusicTime);
         window.addEventListener('DOMContentLoaded', startAudio);

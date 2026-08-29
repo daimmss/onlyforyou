@@ -38,38 +38,31 @@
         };
 
         const startAudio = () => {
-            const savedTime = Number(localStorage.getItem('musicTime') || 0);
             music.volume = 0;
-            music.preload = 'auto';
-
-            const resumePlayback = () => {
-                if (!Number.isNaN(savedTime) && savedTime > 0) {
-                    music.currentTime = savedTime;
-                }
-
-                music.play().then(() => {
-                    let fadeInterval = setInterval(() => {
-                        if (music.volume < 0.9) {
-                            music.volume += 0.1;
-                        } else {
-                            music.volume = 1;
-                            clearInterval(fadeInterval);
-                        }
-                    }, 200);
-                }).catch(() => {
-                    console.log('Autoplay blocked. Waiting for user interaction.');
-                });
-            };
-
-            if (music.readyState >= 1) {
-                resumePlayback();
-            } else {
-                music.addEventListener('loadedmetadata', resumePlayback, { once: true });
-                music.load();
+            const savedTime = Number(localStorage.getItem('musicTime') || 0);
+            if (savedTime > 0) {
+                music.currentTime = savedTime;
             }
+
+            music.play().then(() => {
+                let fadeInterval = setInterval(() => {
+                    if (music.volume < 0.9) {
+                        music.volume += 0.1;
+                    } else {
+                        music.volume = 1;
+                        clearInterval(fadeInterval);
+                    }
+                }, 200);
+            }).catch(() => {
+                console.log('Autoplay blocked. Waiting for user interaction.');
+            });
         };
 
         music.addEventListener('timeupdate', saveMusicTime);
+        music.addEventListener('pause', saveMusicTime);
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) saveMusicTime();
+        });
         window.addEventListener('beforeunload', saveMusicTime);
         window.addEventListener('pagehide', saveMusicTime);
 
@@ -80,7 +73,9 @@
             }
 
             saveMusicTime();
-            window.location.href = 'before-question.html';
+            setTimeout(() => {
+                window.location.href = 'before-question.html';
+            }, 30);
         }
 
         window.addEventListener('DOMContentLoaded', () => {
